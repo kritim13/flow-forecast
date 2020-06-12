@@ -68,7 +68,33 @@ class QuantileLoss(torch.nn.Module):
         loss = torch.mean(
             torch.sum(torch.cat(losses, dim=1), dim=1))
         return loss
+    
+class RMSELoss(torch.nn.Module):
+    '''
+    Returns RMSE using:
+    target -> True y
+    output -> Predtion by model
+    From https://discuss.pytorch.org/t/rmse-loss-function/16540/3
+    '''
+    def __init__(self):
+        super().__init__()
+        self.mse = nn.MSELoss()
 
+    def forward(self,target,output):
+        return torch.sqrt(self.mse(target,output))
+
+class MAPELoss(torch.nn.Module):
+    '''
+    Returns MAPE using:
+    target -> True y
+    output -> Predtion by model
+    '''
+    def __init__(self):
+        super().__init__()
+
+    def forward(self,target,output):
+        return torch.mean(torch.abs((target - output) / target))
+    
 class BertAdam(Optimizer):
     """Implements BERT version of Adam algorithm with weight decay fix.
     Params:
