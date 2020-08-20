@@ -98,6 +98,9 @@ class QuantileLoss(torch.nn.Module):
         self.quantiles = quantiles
 
     def forward(self, preds, target):
+        """
+        calculates QuantileLoss
+        """
         assert not target.requires_grad
         assert preds.size(0) == target.size(0)
         losses = []
